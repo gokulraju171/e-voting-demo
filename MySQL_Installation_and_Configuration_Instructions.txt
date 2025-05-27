@@ -1,0 +1,58 @@
+MySQL Installation and Configuration Instructions for Windows:
+
+1. Download MySQL Installer:
+   - Go to https://dev.mysql.com/downloads/installer/
+   - Download the MySQL Installer for Windows (choose the appropriate version).
+
+2. Install MySQL Server:
+   - Run the downloaded installer.
+   - Choose "Custom" or "Developer Default" setup type.
+   - Select MySQL Server and other tools you want to install.
+   - Proceed with the installation.
+
+3. Configure MySQL Server:
+   - During installation, configure the MySQL Server:
+     - Choose "Standalone MySQL Server".
+     - Set the root password (remember this password).
+     - Optionally create additional user accounts.
+     - Set the port to 3306 (default).
+     - Choose to run MySQL as a Windows service.
+
+4. Start MySQL Server:
+   - After installation, MySQL server should start automatically.
+   - To manually start/stop the server:
+     - Open "Services" (press Win + R, type services.msc).
+     - Find "MySQL" or "MySQL80" service.
+     - Right-click and choose Start or Stop.
+
+5. Verify MySQL Server is Running:
+   - Open Command Prompt.
+   - Run: netstat -ano | findstr :3306
+     - You should see a line with "LISTENING" on port 3306.
+   - Alternatively, open MySQL Command Line Client or MySQL Workbench and connect using root credentials.
+
+6. Create Database and Table for the Project:
+   - Connect to MySQL using MySQL Command Line Client or Workbench.
+   - Run the following SQL commands:
+     ```
+     CREATE DATABASE voter_db;
+     USE voter_db;
+     CREATE TABLE voters (
+       voter_id VARCHAR(36) PRIMARY KEY NOT NULL,
+       role ENUM('admin', 'user') NOT NULL,
+       password VARCHAR(255) NOT NULL
+     );
+     ```
+   - Insert some sample data if needed.
+
+7. Update Database Credentials:
+   - Update the `./Database_API/.env` file with your MySQL username, password, and database name.
+
+8. Restart Backend Server:
+   - After MySQL is running and configured, restart the FastAPI backend server:
+     ```
+     cd Database_API
+     uvicorn main:app --reload --host 127.0.0.1
+     ```
+
+If you encounter any issues during installation or configuration, please let me know.
